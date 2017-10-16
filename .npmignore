@@ -1,0 +1,8 @@
+.git*
+.npm*
+node_modules/
+src/
+.editorconfig
+tsconfig.json
+tslint.json
+yarn.lock

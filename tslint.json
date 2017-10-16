@@ -1,0 +1,97 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-microsoft-contrib",
+    "tslint-eslint-rules"
+  ],
+  "rules": {
+    "await-promise": true,
+    "completed-docs": false,
+    "export-name": false,
+    "function-name": false,
+    "import-name": false,
+    "interface-name": false,
+    "jsx-alignment": false,
+    "jsx-boolean-value": [true, "never"],
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "match-default-export-name": false,
+    "max-classes-per-file": false,
+    "member-ordering": [true, {
+      "order": [
+        {
+          "name": "static attributes",
+          "kinds": [
+            "public-static-field",
+            "protected-static-field",
+            "private-static-field",
+            "public-static-method",
+            "protected-static-method",
+            "private-static-method"
+          ]
+        },
+        {
+          "name": "instance fields",
+          "kinds": [
+            "public-instance-field",
+            "protected-instance-field",
+            "private-instance-field"
+          ]
+        },
+        {
+          "name": "constructor",
+          "kinds": [
+            "public-constructor",
+            "protected-constructor",
+            "private-constructor"
+          ]
+        },
+        {
+          "name": "instance methods",
+          "kinds": [
+            "public-instance-method",
+            "protected-instance-method",
+            "private-instance-method"
+          ]
+        }
+      ]
+    }],
+    "missing-jsdoc": false,
+    "no-any": false,
+    "no-backbone-get-set-outside-model": false,
+    "no-floating-promises": false,
+    "no-function-expression": false,
+    "no-import-side-effect": [true, {
+      "ignore-module": "^jest$"
+    }],
+    "no-internal-module": true,
+    "no-magic-numbers": true,
+    "no-relative-imports": false,
+    "no-reserved-keywords": false,
+    "no-single-line-block-comment": false,
+    "no-string-based-set-timeout": false,
+    "no-string-based-set-interval": false,
+    "no-unsafe-any": false,
+    "no-use-before-declare": false,
+    "no-void-expression": false,
+    "object-curly-spacing": [true, "always"],
+    "ordered-imports": [
+      true,
+      {
+        "named-imports-order": "any"
+      }
+    ],
+    "prefer-type-cast": false,
+    "promise-function-async": false,
+    "quotemark": [true, "single", "jsx-double"],
+    "react-tsx-curly-spacing": false,
+    "react-unused-props-and-state": false,
+    "strict-boolean-expressions": false,
+    "switch-default": false,
+    "ter-indent": [true, 2],
+    "trailing-comma": [true, "always"],
+    "typedef": [true, "call-signature", "parameter"],
+    "variable-name": false
+  }
+}

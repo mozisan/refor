@@ -21,16 +21,18 @@ export class CheckboxInputHandler {
     return this.isChecked;
   }
 
-  public updateTo = (value: boolean): void => {
-    this.value = value;
-  }
-
   public toggle = () => {
     this.updateTo(!this.value);
 
     if (this.updateHook != null) {
       this.updateHook();
     }
+  }
+
+  public updateTo(value: boolean): this {
+    this.value = value;
+
+    return this;
   }
 
   public onUpdate(hook: () => void): this {

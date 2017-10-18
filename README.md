@@ -21,7 +21,6 @@ So that, you can use refor in your app much easily!
 
 ```ts
 import * as React from 'react';
-import { render } from 'react-dom';
 import { FormHandler, CheckboxInputSchema, TextInputSchema } from 'refor';
 
 interface UserInputs {

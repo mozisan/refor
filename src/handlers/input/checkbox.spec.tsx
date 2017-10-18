@@ -6,7 +6,7 @@ import { CheckboxInputHandler } from './checkbox';
 describe('CheckboxInputHandler', () => {
   describe('#updateTo()', () => {
     it('should update its value', () => {
-      const schema = CheckboxInputSchema.build({ default: false });
+      const schema = CheckboxInputSchema.build({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
       expect(handler.isChecked).toEqual(false);
       expect(handler.submittingValue).toEqual(false);
@@ -23,7 +23,7 @@ describe('CheckboxInputHandler', () => {
 
   describe('#toggle()', () => {
     it('should toggle its value', () => {
-      const schema = CheckboxInputSchema.build({ default: false });
+      const schema = CheckboxInputSchema.build({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
       expect(handler.isChecked).toEqual(false);
       expect(handler.submittingValue).toEqual(false);
@@ -41,7 +41,7 @@ describe('CheckboxInputHandler', () => {
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();
-      const schema = CheckboxInputSchema.build({ default: false });
+      const schema = CheckboxInputSchema.build({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();

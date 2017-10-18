@@ -50,8 +50,8 @@ describe('FormHandler', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           onSubmit: submitHook,
         });
@@ -74,8 +74,8 @@ describe('FormHandler', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           shouldSubmit: () => true,
           onSubmit: submitHook,
@@ -99,8 +99,8 @@ describe('FormHandler', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           shouldSubmit: () => false,
           onSubmit: submitHook,
@@ -123,8 +123,8 @@ describe('FormHandler', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           onSubmit: subimtHook,
         });
@@ -145,8 +145,8 @@ describe('FormHandler', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           shouldSubmit: () => true,
           onSubmit: subimtHook,
@@ -168,8 +168,8 @@ describe('FormHandler', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           shouldSubmit: () => false,
           onSubmit: subimtHook,
@@ -188,8 +188,8 @@ describe('FormHandler', () => {
     it('should update its values', () => {
       const handler = new FormHandler({
         schema: {
-          text: TextInputSchema.build({ default: 'foo' }),
-          checkbox: CheckboxInputSchema.build({ default: false }),
+          text: TextInputSchema.build({ initial: 'foo' }),
+          checkbox: CheckboxInputSchema.build({ initial: false }),
         },
       });
 
@@ -216,8 +216,8 @@ describe('FormHandler', () => {
         const updateHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           onUpdate: updateHook,
         });
@@ -238,8 +238,8 @@ describe('FormHandler', () => {
         const updateHook = jest.fn();
         const handler = new FormHandler({
           schema: {
-            text: TextInputSchema.build({ default: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ default: false }),
+            text: TextInputSchema.build({ initial: 'foo' }),
+            checkbox: CheckboxInputSchema.build({ initial: false }),
           },
           onUpdate: updateHook,
         });

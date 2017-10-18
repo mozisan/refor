@@ -39,7 +39,7 @@ class Form extends React.Component<Props> {
     schema: {
       email: TextInputSchema.build(),
       password: TextInputSchema.build(),
-      rememberMe: CheckboxInputSchema.build({ default: true }),
+      rememberMe: CheckboxInputSchema.build({ initial: true }),
     },
     onUpdate: () => this.forceUpdate(),
     shouldSubmit: inputs => inputs.email !== '' && inputs.password !== '',

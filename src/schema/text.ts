@@ -3,7 +3,7 @@ import { identity } from '../utils/function';
 export type Formatter = (value: string) => string;
 
 export interface TextInputSchemaOptions {
-  default?: string;
+  initial?: string;
   formatBy?: Formatter;
 }
 
@@ -14,9 +14,9 @@ export interface TextInputSchema {
 }
 
 export namespace TextInputSchema {
-  export const build = ({ default: initialValue = '', formatBy = identity }: TextInputSchemaOptions = {}): TextInputSchema => ({
-    initialValue,
+  export const build = (options: TextInputSchemaOptions = {}): TextInputSchema => ({
     type: 'text',
-    formatter: formatBy,
+    initialValue: options.initial || '',
+    formatter: options.formatBy || identity,
   });
 }

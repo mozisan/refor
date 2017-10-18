@@ -3,6 +3,8 @@
 node_modules/
 src/
 typings/
+coverage/
+examples/
 .editorconfig
 tsconfig.json
 tslint.json

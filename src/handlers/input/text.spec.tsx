@@ -6,7 +6,7 @@ import { TextInputHandler } from './text';
 describe('TextInputHandler', () => {
   describe('#takeChangeEvent()', () => {
     it('should update its value', () => {
-      const schema = TextInputSchema.build({ default: '' });
+      const schema = TextInputSchema.build({ initial: '' });
       const handler = new TextInputHandler('key', schema);
       expect(handler.value.raw).toEqual('');
       expect(handler.value.formatted).toEqual('');
@@ -28,7 +28,7 @@ describe('TextInputHandler', () => {
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();
-      const schema = TextInputSchema.build({ default: '' });
+      const schema = TextInputSchema.build({ initial: '' });
       const handler = new TextInputHandler('key', schema);
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();
@@ -46,7 +46,7 @@ describe('TextInputHandler', () => {
     describe('when input value does not change at form event', () => {
       it('should not call the hook', () => {
         const hook = jest.fn();
-        const schema = TextInputSchema.build({ default: 'foo' });
+        const schema = TextInputSchema.build({ initial: 'foo' });
         const handler = new TextInputHandler('key', schema);
         handler.onUpdate(hook);
         expect(hook).not.toBeCalled();

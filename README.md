@@ -1,6 +1,6 @@
 # Refor: React form handler
 
-[![wercker status](https://app.wercker.com/status/10b1035e4e7bf28ba1fef6140cdf9cef/s/ "wercker status")](https://app.wercker.com/project/byKey/10b1035e4e7bf28ba1fef6140cdf9cef)
+[![wercker status](https://app.wercker.com/status/a58445da0dc27ddbc4f2d1366fb92a5f/s/master "wercker status")](https://app.wercker.com/project/byKey/a58445da0dc27ddbc4f2d1366fb92a5f)
 
 Refor dose
 

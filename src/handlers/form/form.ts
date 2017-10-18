@@ -6,6 +6,7 @@ import { InputHandlerMap, createInputHandlerMap } from '../input';
 export interface  InputValueMapForHandlerType {
   checkbox: boolean;
   file: File | undefined;
+  multiselect: string[];
   text: string;
 }
 

@@ -25,9 +25,9 @@ export class TextInputHandler {
     this.updateTo(e.currentTarget.value);
   }
 
-  public updateTo = (value: string): void => {
+  public updateTo(value: string): this {
     if (this.value.raw === value) {
-      return;
+      return this;
     }
 
     this.value.updateTo(value);
@@ -35,6 +35,8 @@ export class TextInputHandler {
     if (this.updateHook != null) {
       this.updateHook();
     }
+
+    return this;
   }
 
   public onUpdate(hook: () => void): this {

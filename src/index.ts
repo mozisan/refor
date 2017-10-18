@@ -1,2 +1,2 @@
 export { FormHandler } from './handlers';
-export { CheckboxInputSchema, FileInputSchema, TextInputSchema } from './schema';
+export { CheckboxInputSchema, FileInputSchema, MultiselectInputSchema, TextInputSchema } from './schema';

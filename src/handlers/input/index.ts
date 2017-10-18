@@ -2,11 +2,13 @@ import { InputSchema } from '../../schema';
 import { keysOf, merge } from '../../wrappers/object';
 import { CheckboxInputHandler } from './checkbox';
 import { FileInputHandler } from './file';
+import { MultiselectInputHandler } from './multiselect';
 import { TextInputHandler } from './text';
 
 export interface InputHandlerMapForInputSchemaType {
   checkbox: CheckboxInputHandler;
   file: FileInputHandler;
+  multiselect: MultiselectInputHandler;
   text: TextInputHandler;
 }
 
@@ -21,6 +23,8 @@ function createInputHandler<TFormSchema extends Record<string, InputSchema>>(
     return new CheckboxInputHandler(inputKey, inputSchema);
   case 'file':
     return new FileInputHandler(inputKey);
+  case 'multiselect':
+    return new MultiselectInputHandler(inputKey, inputSchema);
   case 'text':
     return new TextInputHandler(inputKey, inputSchema);
   }

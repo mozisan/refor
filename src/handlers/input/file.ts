@@ -28,9 +28,9 @@ export class FileInputHandler {
     this.updateTo(files[0]);
   }
 
-  public updateTo = (file?: File): void => {
+  public updateTo(file?: File): this {
     if (this.value === file) {
-      return;
+      return this;
     }
 
     this.value = file;
@@ -38,6 +38,8 @@ export class FileInputHandler {
     if (this.updateHook != null) {
       this.updateHook();
     }
+
+    return this;
   }
 
   public onUpdate(hook: () => void): this {

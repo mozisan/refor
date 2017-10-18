@@ -43,7 +43,8 @@
     "test:lint": "tslint --project . --type-check",
     "test:transpile": "run-p \"transpile:* --noEmit\"",
     "test:spec": "jest",
-    "build": "run-s test clean transpile"
+    "prepare": "run-s clean transpile",
+    "prepublishOnly": "yarn test"
   },
   "jest": {
     "collectCoverage": true,

@@ -1,5 +1,5 @@
 box: node:8.7.0
-build:
+test:
   steps:
     - script:
       name: set yarn cache
@@ -10,9 +10,9 @@ build:
       code: |
         HOME=$YARN_CACHE yarn
     - script:
-      name: build
+      name: test
       code: |
-        yarn build
+        yarn test
     - script:
       name: clean up dev dependencies
       code: |

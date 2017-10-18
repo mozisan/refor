@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { FormHandler, CheckboxInputSchema, TextInputSchema } from '../../../dist/es';
+import { FormHandler, CheckboxInputSchema, TextInputSchema } from 'refor';
 
 class Form extends React.Component {
   private formHandler = new FormHandler({

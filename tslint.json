@@ -58,6 +58,7 @@
       ]
     }],
     "missing-jsdoc": false,
+    "mocha-no-side-effect-code": false,
     "no-any": false,
     "no-backbone-get-set-outside-model": false,
     "no-floating-promises": false,

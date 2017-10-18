@@ -8,8 +8,8 @@ export interface CheckboxInputSchema {
 }
 
 export namespace CheckboxInputSchema {
-  export const build = ({ initial = false }: CheckboxInputSchemaOptions = {}): CheckboxInputSchema => ({
+  export const build = (options: CheckboxInputSchemaOptions = {}): CheckboxInputSchema => ({
     type: 'checkbox',
-    initialValue: initial
+    initialValue: options.initial || false,
   });
 }

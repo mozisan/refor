@@ -14,9 +14,9 @@ export interface TextInputSchema {
 }
 
 export namespace TextInputSchema {
-  export const build = ({ initial = '', formatBy = identity }: TextInputSchemaOptions = {}): TextInputSchema => ({
+  export const build = (options: TextInputSchemaOptions = {}): TextInputSchema => ({
     type: 'text',
-    initialValue: initial,
-    formatter: formatBy,
+    initialValue: options.initial || '',
+    formatter: options.formatBy || identity,
   });
 }

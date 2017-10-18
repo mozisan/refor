@@ -14,6 +14,7 @@ So that, you can use refor in your app much easily!
 ## Supported types of input
 
 - **`string`** (`<input>`, `<textarea>`, `<select>`)
+- **`string[]`** (`<select multiple>`)
 - **`boolean`** (`<input type="checkbox">`)
 - **`File`** (`<input type="file">`)
 

@@ -2489,9 +2489,9 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-refor@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/refor/-/refor-0.0.3.tgz#ac70daec34aaac00ce22e2cce5ede3b717c1c0a0"
+refor@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/refor/-/refor-0.0.4.tgz#fd5150fa5366d33245dee5393044ab78ff203c0b"
   dependencies:
     lodash.values "^4.0.0"
 

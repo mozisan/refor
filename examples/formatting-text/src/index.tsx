@@ -1,18 +1,23 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { FormHandler, TextInputSchema } from 'refor';
+import { FormHandler, FormSchema, TextInputSchema } from 'refor';
 
-const excludeHyphens = (value: string) => value.replace('-', '');
-const trim = (value: string) => value.trim();
+const excludeHyphens = (value: string) => value.replace(/-/g, '');
 
 class Form extends React.Component {
   private formHandler = new FormHandler({
-    schema: {
-      postalCode: TextInputSchema.build({ formatBy: excludeHyphens }),
-      sentence: TextInputSchema.build({ formatBy: trim }),
-    },
+    schema: new FormSchema({
+      inputs: {
+        postalCode: new TextInputSchema(),
+        sentence: new TextInputSchema(),
+      },
+      outputs: ({ postalCode, sentence }) => ({
+        postalCode: excludeHyphens(postalCode),
+        sentence: sentence.trim(),
+      }),
+    }),
     onUpdate: () => this.forceUpdate(),
-    onSubmit: inputs => console.log('Submit: ', inputs),
+    onSubmit: outputs => console.log('Submit: ', outputs),
   });
 
   public render(): JSX.Element {
@@ -23,10 +28,10 @@ class Form extends React.Component {
           <input
             type="text"
             id={this.formHandler.inputs.postalCode.key}
-            value={this.formHandler.inputs.postalCode.value.raw}
+            value={this.formHandler.inputs.postalCode.value}
             onChange={this.formHandler.inputs.postalCode.takeChangeEvent}
           />
-          <div>(Formatted: {this.formHandler.inputs.postalCode.value.formatted || '<empty>'})</div>
+          <div>(Formatted: {this.formHandler.outputs.postalCode || '<empty>'})</div>
         </div>
 
         <div style={{ marginTop: '20px' }}>
@@ -34,12 +39,12 @@ class Form extends React.Component {
           <div>
             <textarea
               id={this.formHandler.inputs.sentence.key}
-              value={this.formHandler.inputs.sentence.value.raw}
+              value={this.formHandler.inputs.sentence.value}
               onChange={this.formHandler.inputs.sentence.takeChangeEvent}
             />
           </div>
           <div>
-            (Count: {this.formHandler.inputs.sentence.value.formatted.length} chars)
+            (Count: {this.formHandler.outputs.sentence.length} chars)
           </div>
         </div>
 

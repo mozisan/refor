@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { FormHandler, CheckboxInputSchema, TextInputSchema } from 'refor';
+import { FormHandler, FormSchema, CheckboxInputSchema, TextInputSchema } from 'refor';
 
 class Form extends React.Component {
   private formHandler = new FormHandler({
-    schema: {
-      email: TextInputSchema.build(),
-      password: TextInputSchema.build(),
-      rememberMe: CheckboxInputSchema.build({ initial: true }),
-    },
+    schema: new FormSchema({
+      inputs: {
+        email: new TextInputSchema(),
+        password: new TextInputSchema(),
+        rememberMe: new CheckboxInputSchema({ initial: true }),
+      },
+    }),
     onUpdate: () => this.forceUpdate(),
-    shouldSubmit: inputs => inputs.email !== '' && inputs.password !== '',
-    onSubmit: inputs => console.log('Submit: ', inputs),
+    shouldSubmit: outputs => outputs.email !== '' && outputs.password !== '',
+    onSubmit: outputs => console.log('Submit: ', outputs),
   });
 
   public render(): JSX.Element {
@@ -22,7 +24,7 @@ class Form extends React.Component {
           <input
             type="text"
             id={this.formHandler.inputs.email.key}
-            value={this.formHandler.inputs.email.value.raw}
+            value={this.formHandler.inputs.email.value}
             onChange={this.formHandler.inputs.email.takeChangeEvent}
           />
         </div>
@@ -32,7 +34,7 @@ class Form extends React.Component {
           <input
             type="password"
             id={this.formHandler.inputs.password.key}
-            value={this.formHandler.inputs.password.value.raw}
+            value={this.formHandler.inputs.password.value}
             onChange={this.formHandler.inputs.password.takeChangeEvent}
           />
         </div>
@@ -43,8 +45,8 @@ class Form extends React.Component {
             type="checkbox"
             role="checkbox"
             id={this.formHandler.inputs.rememberMe.key}
-            checked={this.formHandler.inputs.rememberMe.isChecked}
-            aria-checked={this.formHandler.inputs.rememberMe.isChecked}
+            checked={this.formHandler.inputs.rememberMe.value}
+            aria-checked={this.formHandler.inputs.rememberMe.value}
             onChange={this.formHandler.inputs.rememberMe.toggle}
           />
         </div>

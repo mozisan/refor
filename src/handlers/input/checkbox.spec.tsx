@@ -6,42 +6,36 @@ import { CheckboxInputHandler } from './checkbox';
 describe('CheckboxInputHandler', () => {
   describe('#updateTo()', () => {
     it('should update its value', () => {
-      const schema = CheckboxInputSchema.build({ initial: false });
+      const schema = new CheckboxInputSchema({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
-      expect(handler.isChecked).toEqual(false);
-      expect(handler.submittingValue).toEqual(false);
+      expect(handler.value).toEqual(false);
 
       handler.updateTo(true);
-      expect(handler.isChecked).toEqual(true);
-      expect(handler.submittingValue).toEqual(true);
+      expect(handler.value).toEqual(true);
 
       handler.updateTo(false);
-      expect(handler.isChecked).toEqual(false);
-      expect(handler.submittingValue).toEqual(false);
+      expect(handler.value).toEqual(false);
     });
   });
 
   describe('#toggle()', () => {
     it('should toggle its value', () => {
-      const schema = CheckboxInputSchema.build({ initial: false });
+      const schema = new CheckboxInputSchema({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
-      expect(handler.isChecked).toEqual(false);
-      expect(handler.submittingValue).toEqual(false);
+      expect(handler.value).toEqual(false);
 
       handler.toggle();
-      expect(handler.isChecked).toEqual(true);
-      expect(handler.submittingValue).toEqual(true);
+      expect(handler.value).toEqual(true);
 
       handler.toggle();
-      expect(handler.isChecked).toEqual(false);
-      expect(handler.submittingValue).toEqual(false);
+      expect(handler.value).toEqual(false);
     });
   });
 
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();
-      const schema = CheckboxInputSchema.build({ initial: false });
+      const schema = new CheckboxInputSchema({ initial: false });
       const handler = new CheckboxInputHandler('key', schema);
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();

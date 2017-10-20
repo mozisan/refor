@@ -1,46 +1,43 @@
 import * as React from 'react';
-import { InputSchema } from '../../schema';
+import { FormSchema, InputSchema, InputTypeOf } from '../../schema';
 import { keysOf, valuesOf, merge } from '../../wrappers/object';
 import { InputHandlerMap, createInputHandlerMap } from '../input';
 
-export interface  InputValueMapForHandlerType {
-  checkbox: boolean;
-  file: File | undefined;
-  multiselect: string[];
-  text: string;
-}
-
-export type InputValueMap<TFormSchema extends Record<string, InputSchema>> = {
-  [TKey in keyof InputHandlerMap<TFormSchema>]: InputValueMapForHandlerType[InputHandlerMap<TFormSchema>[TKey]['type']];
-};
-
-export interface ConstructorOptions<TFormSchema extends Record<string, InputSchema>> {
-  schema: TFormSchema;
+export interface ConstructorOptions<TInputs extends Record<string, InputSchema>, TOutputs> {
+  schema: FormSchema<TInputs, TOutputs>;
   onUpdate?(): void;
-  shouldSubmit?(payload: InputValueMap<TFormSchema>): boolean;
-  onSubmit?(payload: InputValueMap<TFormSchema>): void;
+  shouldSubmit?(outputs: TOutputs): boolean;
+  onSubmit?(outputs: TOutputs): void;
 }
 
-export class FormHandler<TSchema extends Record<string, InputSchema>> {
-  public readonly inputs: InputHandlerMap<TSchema>;
+export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> {
+  public readonly inputs: InputHandlerMap<TInputs>;
+  private formatInputs: (inputs: InputTypeOf<TInputs>) => TOutputs;
+  private formattedValues: TOutputs;
   private isInTransaction = false;
   private hasChangedInTransaction = false;
-  private onUpdate?: () => void;
-  private shouldSubmit?: (payload: InputValueMap<TSchema>) => boolean;
-  private onSubmit?: (payload: InputValueMap<TSchema>) => void;
+  private onUpdate?: (outputs: TOutputs) => void;
+  private shouldSubmit?: (outputs: TOutputs) => boolean;
+  private onSubmit?: (outputs: TOutputs) => void;
 
   constructor({
     schema,
     onUpdate,
     shouldSubmit,
     onSubmit,
-  }: ConstructorOptions<TSchema>) {
-    this.inputs = createInputHandlerMap(schema);
+  }: ConstructorOptions<TInputs, TOutputs>) {
+    this.inputs = createInputHandlerMap(schema.inputs);
+    this.formatInputs = schema.format;
+    this.formattedValues = schema.format(this.buildInputValueMap(this.inputs));
     this.onUpdate = onUpdate;
     this.shouldSubmit = shouldSubmit;
     this.onSubmit = onSubmit;
 
     valuesOf(this.inputs).map(inputHandler => inputHandler.onUpdate(this.handleInputUpdate));
+  }
+
+  public get outputs(): TOutputs {
+    return this.formattedValues;
   }
 
   public takeSubmitEvent = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,26 +50,20 @@ export class FormHandler<TSchema extends Record<string, InputSchema>> {
       return;
     }
 
-    const payload = keysOf(this.inputs)
-      .map(key => ({ [key]: this.inputs[key].submittingValue }))
-      .reduce(merge, {}) as any;
-
-    if (this.shouldSubmit != null && !this.shouldSubmit(payload)) {
+    if (this.shouldSubmit != null && !this.shouldSubmit(this.formattedValues)) {
       return;
     }
 
-    this.onSubmit(payload);
+    this.onSubmit(this.formattedValues);
   }
 
-  public updateMultipleInputs(f: (inputs: InputHandlerMap<TSchema>) => void): void {
+  public updateMultipleInputs(f: (inputs: InputHandlerMap<TInputs>) => void): void {
     this.isInTransaction = true;
 
     f(this.inputs);
 
     if (this.hasChangedInTransaction) {
-      if (this.onUpdate != null) {
-        this.onUpdate();
-      }
+      this.applyInputUpdate();
       this.hasChangedInTransaction = false;
     }
 
@@ -86,8 +77,20 @@ export class FormHandler<TSchema extends Record<string, InputSchema>> {
       return;
     }
 
+    this.applyInputUpdate();
+  }
+
+  private applyInputUpdate(): void {
+    this.formattedValues = this.formatInputs(this.buildInputValueMap(this.inputs));
+
     if (this.onUpdate != null) {
-      this.onUpdate();
+      this.onUpdate(this.formattedValues);
     }
+  }
+
+  private buildInputValueMap(inputs: InputHandlerMap<TInputs>): InputTypeOf<TInputs> {
+    return keysOf(inputs)
+      .map(key => ({ [key]: inputs[key].value }))
+      .reduce(merge, {}) as any;
   }
 }

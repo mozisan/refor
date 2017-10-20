@@ -6,11 +6,9 @@ import { TextInputHandler } from './text';
 describe('TextInputHandler', () => {
   describe('#takeChangeEvent()', () => {
     it('should update its value', () => {
-      const schema = TextInputSchema.build({ initial: '' });
+      const schema = new TextInputSchema({ initial: '' });
       const handler = new TextInputHandler('key', schema);
-      expect(handler.value.raw).toEqual('');
-      expect(handler.value.formatted).toEqual('');
-      expect(handler.submittingValue).toEqual('');
+      expect(handler.value).toEqual('');
 
       const element = shallow(<input type="text" onChange={handler.takeChangeEvent} />);
       element.simulate('change', {
@@ -19,16 +17,14 @@ describe('TextInputHandler', () => {
         },
       });
 
-      expect(handler.value.raw).toEqual('foo');
-      expect(handler.value.formatted).toEqual('foo');
-      expect(handler.submittingValue).toEqual('foo');
+      expect(handler.value).toEqual('foo');
     });
   });
 
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();
-      const schema = TextInputSchema.build({ initial: '' });
+      const schema = new TextInputSchema({ initial: '' });
       const handler = new TextInputHandler('key', schema);
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();
@@ -46,7 +42,7 @@ describe('TextInputHandler', () => {
     describe('when input value does not change at form event', () => {
       it('should not call the hook', () => {
         const hook = jest.fn();
-        const schema = TextInputSchema.build({ initial: 'foo' });
+        const schema = new TextInputSchema({ initial: 'foo' });
         const handler = new TextInputHandler('key', schema);
         handler.onUpdate(hook);
         expect(hook).not.toBeCalled();

@@ -27,27 +27,29 @@ So that, you can use refor in your app much easily!
 
 ```ts
 import * as React from 'react';
-import { FormHandler, CheckboxInputSchema, TextInputSchema } from 'refor';
+import { FormHandler, FormSchema, CheckboxInputSchema, TextInputSchema } from 'refor';
 
-interface UserInputs {
+interface FormOutputs {
   email: string;
   password: string;
   rememberMe: boolean;
 }
 
 interface Props {
-  onSubmit(inputs: UserInputs): void;
+  onSubmit(inputs: FormOutputs): void;
 }
 
 class Form extends React.Component<Props> {
   private formHandler = new FormHandler({
-    schema: {
-      email: TextInputSchema.build(),
-      password: TextInputSchema.build(),
-      rememberMe: CheckboxInputSchema.build({ initial: true }),
-    },
+    schema: new FormSchema({
+      inputs: {
+        email: new TextInputSchema(),
+        password: new TextInputSchema(),
+        rememberMe: new CheckboxInputSchema({ initial: true }),
+      },
+    }),
     onUpdate: () => this.forceUpdate(),
-    shouldSubmit: inputs => inputs.email !== '' && inputs.password !== '',
+    shouldSubmit: values => values.email !== '' && values.password !== '',
     onSubmit: this.props.onSubmit,
   });
 
@@ -59,7 +61,7 @@ class Form extends React.Component<Props> {
           <input
             type="text"
             id={this.formHandler.inputs.email.key}
-            value={this.formHandler.inputs.email.value.raw}
+            value={this.formHandler.inputs.email.value}
             onChange={this.formHandler.inputs.email.takeChangeEvent}
           />
         </div>
@@ -69,7 +71,7 @@ class Form extends React.Component<Props> {
           <input
             type="password"
             id={this.formHandler.inputs.password.key}
-            value={this.formHandler.inputs.password.value.raw}
+            value={this.formHandler.inputs.password.value}
             onChange={this.formHandler.inputs.password.takeChangeEvent}
           />
         </div>
@@ -79,7 +81,7 @@ class Form extends React.Component<Props> {
           <input
             type="checkbox"
             id={this.formHandler.inputs.rememberMe.key}
-            checked={this.formHandler.inputs.rememberMe.isChecked}
+            checked={this.formHandler.inputs.rememberMe.value}
             onChange={this.formHandler.inputs.rememberMe.toggle}
           />
         </div>

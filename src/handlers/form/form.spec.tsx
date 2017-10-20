@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { CheckboxInputSchema, FileInputSchema, TextInputSchema } from '../../schema';
+import { FormSchema, CheckboxInputSchema, FileInputSchema, TextInputSchema } from '../../schema';
 import { FormHandler } from './form';
 
 describe('FormHandler', () => {
@@ -8,9 +8,11 @@ describe('FormHandler', () => {
     const updateHook = jest.fn();
 
     const handler = new FormHandler({
-      schema: {
-        text: TextInputSchema.build(),
-      },
+      schema: new FormSchema({
+        inputs: {
+          text: new TextInputSchema(),
+        },
+      }),
       onUpdate: updateHook,
     });
 
@@ -32,7 +34,9 @@ describe('FormHandler', () => {
     it('should call Event#preventDefault()', () => {
       const preventDefaultMock = jest.fn();
       const handler = new FormHandler({
-        schema: {},
+        schema: new FormSchema({
+          inputs: {},
+        }),
       });
 
       expect(preventDefaultMock).not.toBeCalled();
@@ -49,10 +53,12 @@ describe('FormHandler', () => {
       it('should call `options.onSubmit` with submittion values', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           onSubmit: submitHook,
         });
         expect(submitHook).not.toBeCalled();
@@ -73,10 +79,12 @@ describe('FormHandler', () => {
       it('should call `options.onSubmit`', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           shouldSubmit: () => true,
           onSubmit: submitHook,
         });
@@ -98,10 +106,12 @@ describe('FormHandler', () => {
       it('should not call `options.onSubmit`', () => {
         const submitHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           shouldSubmit: () => false,
           onSubmit: submitHook,
         });
@@ -122,10 +132,12 @@ describe('FormHandler', () => {
       it('should call `options.onSubmit` with submittion values', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           onSubmit: subimtHook,
         });
 
@@ -144,10 +156,12 @@ describe('FormHandler', () => {
       it('should call `options.onSubmit` with submittion values', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           shouldSubmit: () => true,
           onSubmit: subimtHook,
         });
@@ -167,10 +181,12 @@ describe('FormHandler', () => {
       it('should not call `options.onSubmit`', () => {
         const subimtHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           shouldSubmit: () => false,
           onSubmit: subimtHook,
         });
@@ -187,38 +203,36 @@ describe('FormHandler', () => {
   describe('#updateMultipleInputs()', () => {
     it('should update its values', () => {
       const handler = new FormHandler({
-        schema: {
-          text: TextInputSchema.build({ initial: 'foo' }),
-          checkbox: CheckboxInputSchema.build({ initial: false }),
-        },
+        schema: new FormSchema({
+          inputs: {
+            text: new TextInputSchema({ initial: 'foo' }),
+            checkbox: new CheckboxInputSchema({ initial: false }),
+          },
+        }),
       });
 
-      expect(handler.inputs.text.value.raw).toEqual('foo');
-      expect(handler.inputs.text.value.formatted).toEqual('foo');
-      expect(handler.inputs.text.submittingValue).toEqual('foo');
-      expect(handler.inputs.checkbox.isChecked).toEqual(false);
-      expect(handler.inputs.checkbox.submittingValue).toEqual(false);
+      expect(handler.inputs.text.value).toEqual('foo');
+      expect(handler.inputs.checkbox.value).toEqual(false);
 
       handler.updateMultipleInputs(({ text, checkbox }) => {
         text.updateTo('bar');
         checkbox.updateTo(true);
       });
 
-      expect(handler.inputs.text.value.raw).toEqual('bar');
-      expect(handler.inputs.text.value.formatted).toEqual('bar');
-      expect(handler.inputs.text.submittingValue).toEqual('bar');
-      expect(handler.inputs.checkbox.isChecked).toEqual(true);
-      expect(handler.inputs.checkbox.submittingValue).toEqual(true);
+      expect(handler.inputs.text.value).toEqual('bar');
+      expect(handler.inputs.checkbox.value).toEqual(true);
     });
 
     describe('when some of input has changed', () => {
       it('should call `options.onUpdate` once', () => {
         const updateHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           onUpdate: updateHook,
         });
 
@@ -237,10 +251,12 @@ describe('FormHandler', () => {
       it('should not call `options.onUpdate`', () => {
         const updateHook = jest.fn();
         const handler = new FormHandler({
-          schema: {
-            text: TextInputSchema.build({ initial: 'foo' }),
-            checkbox: CheckboxInputSchema.build({ initial: false }),
-          },
+          schema: new FormSchema({
+            inputs: {
+              text: new TextInputSchema({ initial: 'foo' }),
+              checkbox: new CheckboxInputSchema({ initial: false }),
+            },
+          }),
           onUpdate: updateHook,
         });
 

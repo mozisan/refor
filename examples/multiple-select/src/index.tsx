@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { FormHandler, MultiselectInputSchema } from 'refor';
+import { FormHandler, FormSchema, MultiselectInputSchema } from 'refor';
 
 class Form extends React.Component {
   private formHandler = new FormHandler({
-    schema: {
-      skills: MultiselectInputSchema.build({ initial: ['JS'] }),
-    },
+    schema: new FormSchema({
+      inputs: {
+        skills: new MultiselectInputSchema({ initial: ['JS'] }),
+      },
+    }),
     onUpdate: () => this.forceUpdate(),
     onSubmit: inputs => console.log('Submit: ', inputs),
   });
@@ -19,7 +21,7 @@ class Form extends React.Component {
           <div>
             <select
               id={this.formHandler.inputs.skills.key}
-              value={this.formHandler.inputs.skills.values}
+              value={this.formHandler.inputs.skills.value}
               onChange={this.formHandler.inputs.skills.takeChangeEvent}
               multiple
             >
@@ -31,7 +33,7 @@ class Form extends React.Component {
         </div>
 
         <div style={{ marginTop: '20px' }}>
-          (Selected: {this.formHandler.inputs.skills.values.join(', ') || '<empty>'})
+          (Selected: {this.formHandler.inputs.skills.value.join(', ') || '<empty>'})
         </div>
 
         <div style={{ marginTop: '20px' }}>

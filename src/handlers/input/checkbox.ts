@@ -1,28 +1,24 @@
 import { CheckboxInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
+import { InputControllerContract } from './abstract';
 
-export class CheckboxInputHandler {
+export class CheckboxInputHandler implements InputControllerContract<'checkbox', boolean> {
   public readonly type: 'checkbox';
   public readonly key: string;
-  private value: boolean;
+  private isChecked: boolean;
   private updateHook?: () => void;
 
   constructor(key: string, { initialValue }: CheckboxInputSchema) {
-    this.type = 'checkbox';
     this.key = appendRandomHash(key);
-    this.value = initialValue;
+    this.isChecked = initialValue;
   }
 
-  public get isChecked(): boolean {
-    return this.value;
-  }
-
-  public get submittingValue(): boolean {
+  public get value(): boolean {
     return this.isChecked;
   }
 
   public toggle = () => {
-    this.updateTo(!this.value);
+    this.updateTo(!this.isChecked);
 
     if (this.updateHook != null) {
       this.updateHook();
@@ -30,7 +26,7 @@ export class CheckboxInputHandler {
   }
 
   public updateTo(value: boolean): this {
-    this.value = value;
+    this.isChecked = value;
 
     return this;
   }

@@ -1,36 +1,33 @@
 import { FormEvent } from 'react';
 import { MultiselectInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
+import { InputControllerContract } from './abstract';
 
-export class MultiselectInputHandler {
+export class MultiselectInputHandler implements InputControllerContract<'multiselect', string[]> {
   public readonly type: 'multiselect';
   public readonly key: string;
-  private valueSet: string[];
+  private selectedValues: string[];
   private updateHook?: () => void;
 
   constructor(key: string, schema: MultiselectInputSchema) {
     this.type = 'multiselect';
     this.key = appendRandomHash(key);
-    this.valueSet = schema.initialValues;
+    this.selectedValues = schema.initialValue;
   }
 
-  public get values(): string[] {
-    return this.valueSet;
-  }
-
-  public get submittingValue(): string[] {
-    return this.valueSet;
+  public get value(): string[] {
+    return this.selectedValues;
   }
 
   public takeChangeEvent = (e: FormEvent<HTMLSelectElement>) => {
     const optionNodes = e.currentTarget.getElementsByTagName('option');
     const options: HTMLOptionElement[] = [].slice.call(optionNodes);
-    const valueSet = options.filter(option => option.selected).map(option => option.value);
-    this.updateTo(valueSet);
+    const selectedValues = options.filter(option => option.selected).map(option => option.value);
+    this.updateTo(selectedValues);
   }
 
   public updateTo(value: string[]): this {
-    this.valueSet = value;
+    this.selectedValues = value;
 
     if (this.updateHook != null) {
       this.updateHook();
@@ -45,7 +42,7 @@ export class MultiselectInputHandler {
       return this;
     }
 
-    return this.updateTo([...this.valueSet, ...addableItems]);
+    return this.updateTo([...this.selectedValues, ...addableItems]);
   }
 
   public remove(...items: string[]): this {
@@ -54,7 +51,7 @@ export class MultiselectInputHandler {
       return this;
     }
 
-    return this.updateTo(this.getValueSetExcluding(removableItems));
+    return this.updateTo(this.getselectedValuesExcluding(removableItems));
   }
 
   public onUpdate(hook: () => void): this {
@@ -64,10 +61,10 @@ export class MultiselectInputHandler {
   }
 
   private hasSelected(item: string): boolean {
-    return this.valueSet.indexOf(item) !== -1;
+    return this.selectedValues.indexOf(item) !== -1;
   }
 
-  private getValueSetExcluding(items: string[]): string[] {
-    return this.valueSet.filter(value => items.indexOf(value) === -1);
+  private getselectedValuesExcluding(items: string[]): string[] {
+    return this.selectedValues.filter(value => items.indexOf(value) === -1);
   }
 }

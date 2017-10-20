@@ -6,8 +6,7 @@ describe('FileInputHandler', () => {
   describe('#takeChangeEvent()', () => {
     it('should update its value', () => {
       const handler = new FileInputHandler('key');
-      expect(handler.file).toBeUndefined();
-      expect(handler.submittingValue).toBeUndefined();
+      expect(handler.value).toBeUndefined();
 
       const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
       element.simulate('change', {
@@ -16,8 +15,7 @@ describe('FileInputHandler', () => {
         },
       });
 
-      expect(handler.file).toBeInstanceOf(File);
-      expect(handler.submittingValue).toBeInstanceOf(File);
+      expect(handler.value).toBeInstanceOf(File);
     });
   });
 
@@ -95,10 +93,10 @@ describe('FileInputHandler', () => {
           files: [new File([], '')],
         },
       });
-      expect(handler.file).toBeDefined();
+      expect(handler.value).toBeDefined();
 
       handler.clear();
-      expect(handler.file).toBeUndefined();
+      expect(handler.value).toBeUndefined();
     });
   });
 });

@@ -1,9 +1,10 @@
 import { appendRandomHash } from '../../utils/string';
+import { InputControllerContract } from './abstract';
 
-export class FileInputHandler {
+export class FileInputHandler implements InputControllerContract<'file', File | undefined> {
   public readonly type: 'file';
   public readonly key: string;
-  private value?: File;
+  private selectedFile?: File;
   private updateHook?: () => void;
 
   constructor(key: string) {
@@ -11,12 +12,8 @@ export class FileInputHandler {
     this.key = appendRandomHash(key);
   }
 
-  public get file(): File | undefined {
-    return this.value;
-  }
-
-  public get submittingValue(): File | undefined {
-    return this.file;
+  public get value(): File | undefined {
+    return this.selectedFile;
   }
 
   public takeChangeEvent = (e: React.FormEvent<HTMLInputElement>) => {
@@ -29,11 +26,11 @@ export class FileInputHandler {
   }
 
   public updateTo(file?: File): this {
-    if (this.value === file) {
+    if (this.selectedFile === file) {
       return this;
     }
 
-    this.value = file;
+    this.selectedFile = file;
 
     if (this.updateHook != null) {
       this.updateHook();

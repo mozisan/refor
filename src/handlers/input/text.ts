@@ -1,24 +1,24 @@
 import { FormEvent } from 'react';
 import { TextInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
-import { FormattableString } from '../../values';
+import { InputControllerContract } from './abstract';
 
 type TextInputElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
-export class TextInputHandler {
+export class TextInputHandler implements InputControllerContract<'text', string> {
   public readonly type: 'text';
   public readonly key: string;
-  public readonly value: FormattableString;
+  private inputText: string;
   private updateHook?: () => void;
 
-  constructor(key: string, schema: TextInputSchema) {
+  constructor(key: string, { initialValue }: TextInputSchema) {
     this.type = 'text';
     this.key = appendRandomHash(key);
-    this.value = new FormattableString(schema.initialValue, { formatBy: schema.formatter });
+    this.inputText = initialValue;
   }
 
-  public get submittingValue(): string {
-    return this.value.formatted;
+  public get value(): string {
+    return this.inputText;
   }
 
   public takeChangeEvent = (e: FormEvent<TextInputElement>) => {
@@ -26,11 +26,11 @@ export class TextInputHandler {
   }
 
   public updateTo(value: string): this {
-    if (this.value.raw === value) {
+    if (this.inputText === value) {
       return this;
     }
 
-    this.value.updateTo(value);
+    this.inputText = value;
 
     if (this.updateHook != null) {
       this.updateHook();

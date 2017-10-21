@@ -10,7 +10,7 @@ class Form extends React.Component {
       },
     }),
     onUpdate: () => this.forceUpdate(),
-    onSubmit: inputs => console.log('Submit: ', inputs),
+    onSubmit: outputs => console.log('Submit: ', outputs),
   });
 
   public render(): JSX.Element {

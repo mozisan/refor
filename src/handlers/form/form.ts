@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FormSchema, InputSchema, InputTypeOf } from '../../schema';
-import { keysOf, valuesOf, merge } from '../../wrappers/object';
+import { valuesOf } from '../../utils/object';
+import { keysOf, merge } from '../../wrappers/object';
 import { InputHandlerMap, createInputHandlerMap } from '../input';
 
 export interface ConstructorOptions<TInputs extends Record<string, InputSchema>, TOutputs> {

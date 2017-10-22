@@ -21,7 +21,7 @@ export class TextInputHandler implements InputControllerContract<'text', string>
     return this.inputText;
   }
 
-  public takeChangeEvent = (e: FormEvent<TextInputElement>) => {
+  public handleChange = (e: FormEvent<TextInputElement>) => {
     this.updateTo(e.currentTarget.value);
   }
 

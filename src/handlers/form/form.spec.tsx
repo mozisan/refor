@@ -20,7 +20,7 @@ describe('FormHandler', () => {
 
     expect(updateHook.mock.calls.length).toEqual(0);
 
-    const element = shallow(<input type="text" onChange={handler.inputs.text.takeChangeEvent} />);
+    const element = shallow(<input type="text" onChange={handler.inputs.text.handleChange} />);
     element.simulate('change', {
       currentTarget: {
         value: 'foo',
@@ -30,7 +30,7 @@ describe('FormHandler', () => {
     expect(updateHook).toBeCalled();
   });
 
-  describe('#takeSubmitEvent()', () => {
+  describe('#handleSubmit()', () => {
     it('should call Event#preventDefault()', () => {
       const preventDefaultMock = jest.fn();
       const handler = new FormHandler({
@@ -41,7 +41,7 @@ describe('FormHandler', () => {
 
       expect(preventDefaultMock).not.toBeCalled();
 
-      const element = shallow(<form onSubmit={handler.takeSubmitEvent} />);
+      const element = shallow(<form onSubmit={handler.handleSubmit} />);
       element.simulate('submit', {
         preventDefault: preventDefaultMock,
       });
@@ -63,7 +63,7 @@ describe('FormHandler', () => {
         });
         expect(submitHook).not.toBeCalled();
 
-        const element = shallow(<form onSubmit={handler.takeSubmitEvent} />);
+        const element = shallow(<form onSubmit={handler.handleSubmit} />);
         element.simulate('submit', {
           preventDefault: jest.fn(),
         });
@@ -90,7 +90,7 @@ describe('FormHandler', () => {
         });
         expect(submitHook).not.toBeCalled();
 
-        const element = shallow(<form onSubmit={handler.takeSubmitEvent} />);
+        const element = shallow(<form onSubmit={handler.handleSubmit} />);
         element.simulate('submit', {
           preventDefault: jest.fn(),
         });
@@ -117,7 +117,7 @@ describe('FormHandler', () => {
         });
         expect(submitHook).not.toBeCalled();
 
-        const element = shallow(<form onSubmit={handler.takeSubmitEvent} />);
+        const element = shallow(<form onSubmit={handler.handleSubmit} />);
         element.simulate('submit', {
           preventDefault: jest.fn(),
         });

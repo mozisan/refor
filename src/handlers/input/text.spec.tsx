@@ -4,13 +4,13 @@ import { TextInputSchema } from '../../schema';
 import { TextInputHandler } from './text';
 
 describe('TextInputHandler', () => {
-  describe('#takeChangeEvent()', () => {
+  describe('#handleChange()', () => {
     it('should update its value', () => {
       const schema = new TextInputSchema({ initial: '' });
       const handler = new TextInputHandler('key', schema);
       expect(handler.value).toEqual('');
 
-      const element = shallow(<input type="text" onChange={handler.takeChangeEvent} />);
+      const element = shallow(<input type="text" onChange={handler.handleChange} />);
       element.simulate('change', {
         currentTarget: {
           value: 'foo',
@@ -29,7 +29,7 @@ describe('TextInputHandler', () => {
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();
 
-      const element = shallow(<input type="text" onChange={handler.takeChangeEvent} />);
+      const element = shallow(<input type="text" onChange={handler.handleChange} />);
       element.simulate('change', {
         currentTarget: {
           value: 'foo',
@@ -47,7 +47,7 @@ describe('TextInputHandler', () => {
         handler.onUpdate(hook);
         expect(hook).not.toBeCalled();
 
-        const element = shallow(<input type="text" onChange={handler.takeChangeEvent} />);
+        const element = shallow(<input type="text" onChange={handler.handleChange} />);
         element.simulate('change', {
           currentTarget: {
             value: 'foo',

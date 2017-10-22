@@ -4,7 +4,7 @@ import { MultiselectInputSchema } from '../../schema';
 import { MultiselectInputHandler } from './multiselect';
 
 describe('MultiselectInputHandler', () => {
-  describe('#takeChangeEvent()', () => {
+  describe('#handleChange()', () => {
     describe('when only one of options is selected', () => {
       it('should update its value', () => {
         const schema = new MultiselectInputSchema();
@@ -12,7 +12,7 @@ describe('MultiselectInputHandler', () => {
         expect(handler.value).toEqual([]);
 
         const element = mount(
-          <select multiple value={handler.value} onChange={handler.takeChangeEvent}>
+          <select multiple value={handler.value} onChange={handler.handleChange}>
             <option id="foo" value="foo">foo</option>
             <option id="bar" value="bar">bar</option>
           </select>
@@ -32,7 +32,7 @@ describe('MultiselectInputHandler', () => {
         expect(handler.value).toEqual([]);
 
         const element = mount(
-          <select multiple value={handler.value} onChange={handler.takeChangeEvent}>
+          <select multiple value={handler.value} onChange={handler.handleChange}>
             <option id="foo" value="foo">foo</option>
             <option id="bar" value="bar">bar</option>
           </select>
@@ -54,7 +54,7 @@ describe('MultiselectInputHandler', () => {
         expect(handler.value).toEqual(['foo', 'baz']);
 
         const element = mount(
-          <select multiple value={handler.value} onChange={handler.takeChangeEvent}>
+          <select multiple value={handler.value} onChange={handler.handleChange}>
             <option id="foo" value="foo">foo</option>
             <option id="bar" value="bar">bar</option>
             <option id="baz" value="baz">baz</option>
@@ -120,7 +120,7 @@ describe('MultiselectInputHandler', () => {
       expect(hook).not.toBeCalled();
 
       const element = mount(
-        <select multiple value={handler.value} onChange={handler.takeChangeEvent}>
+        <select multiple value={handler.value} onChange={handler.handleChange}>
           <option id="foo" value="foo">foo</option>
           <option id="bar" value="bar">bar</option>
         </select>

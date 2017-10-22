@@ -19,7 +19,7 @@ export class MultiselectInputHandler implements InputControllerContract<'multise
     return this.selectedValues;
   }
 
-  public takeChangeEvent = (e: FormEvent<HTMLSelectElement>) => {
+  public handleChange = (e: FormEvent<HTMLSelectElement>) => {
     const optionNodes = e.currentTarget.getElementsByTagName('option');
     const options: HTMLOptionElement[] = [].slice.call(optionNodes);
     const selectedValues = options.filter(option => option.selected).map(option => option.value);

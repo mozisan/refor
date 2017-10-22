@@ -1,7 +1,7 @@
 # Refor: React form handler
 
 [![wercker status](https://app.wercker.com/status/a58445da0dc27ddbc4f2d1366fb92a5f/s/master "wercker status")](https://app.wercker.com/project/byKey/a58445da0dc27ddbc4f2d1366fb92a5f)
-[![Coverage Status](https://coveralls.io/repos/github/mozisan/refor/badge.svg?branch=feature%2Fenable-uploading-coverage-to-coveralls)](https://coveralls.io/github/mozisan/refor?branch=feature%2Fenable-uploading-coverage-to-coveralls)
+[![Coverage Status](https://coveralls.io/repos/github/mozisan/refor/badge.svg?branch=master)](https://coveralls.io/github/mozisan/refor?branch=master)
 [![npm version](https://img.shields.io/npm/v/refor.svg?style=flat)](https://www.npmjs.com/package/refor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 

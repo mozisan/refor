@@ -14,15 +14,17 @@ class Form extends React.Component {
   });
 
   public render(): JSX.Element {
+    const { inputs, handleSubmit } = this.formHandler;
+
     return (
-      <form onSubmit={this.formHandler.takeSubmitEvent}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor={this.formHandler.inputs.skills.key}>Skills</label>
+          <label htmlFor={inputs.skills.key}>Skills</label>
           <div>
             <select
-              id={this.formHandler.inputs.skills.key}
-              value={this.formHandler.inputs.skills.value}
-              onChange={this.formHandler.inputs.skills.takeChangeEvent}
+              id={inputs.skills.key}
+              value={inputs.skills.value}
+              onChange={inputs.skills.handleChange}
               multiple
             >
               <option value="JS">JS</option>
@@ -33,7 +35,7 @@ class Form extends React.Component {
         </div>
 
         <div style={{ marginTop: '20px' }}>
-          (Selected: {this.formHandler.inputs.skills.value.join(', ') || '<empty>'})
+          (Selected: {inputs.skills.value.join(', ') || '<empty>'})
         </div>
 
         <div style={{ marginTop: '20px' }}>

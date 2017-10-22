@@ -1756,10 +1756,6 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash.values@^4.0.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/lodash.values/-/lodash.values-4.3.0.tgz#a3a6c2b0ebecc5c2cba1c17e6e620fe81b53d347"
-
 lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -2489,11 +2485,9 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-refor@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/refor/-/refor-0.0.5.tgz#e2c99409b7940d64937c9c8f33546c34cf315a96"
-  dependencies:
-    lodash.values "^4.0.0"
+refor@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/refor/-/refor-0.0.6.tgz#3792491def09c3b42c2db2a01a9577339ef2a536"
 
 regex-cache@^0.4.2:
   version "0.4.4"

@@ -21,30 +21,32 @@ class Form extends React.Component {
   });
 
   public render(): JSX.Element {
+    const { inputs, outputs, handleSubmit } = this.formHandler;
+
     return (
-      <form onSubmit={this.formHandler.takeSubmitEvent}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor={this.formHandler.inputs.postalCode.key}>Postal code (auto-excluding hyphens)</label>
+          <label htmlFor={inputs.postalCode.key}>Postal code (auto-excluding hyphens)</label>
           <input
             type="text"
-            id={this.formHandler.inputs.postalCode.key}
-            value={this.formHandler.inputs.postalCode.value}
-            onChange={this.formHandler.inputs.postalCode.takeChangeEvent}
+            id={inputs.postalCode.key}
+            value={inputs.postalCode.value}
+            onChange={inputs.postalCode.handleChange}
           />
-          <div>(Formatted: {this.formHandler.outputs.postalCode || '<empty>'})</div>
+          <div>(Formatted: {outputs.postalCode || '<empty>'})</div>
         </div>
 
         <div style={{ marginTop: '20px' }}>
-          <label htmlFor={this.formHandler.inputs.sentence.key}>Sentence (auto-trimming)</label>
+          <label htmlFor={inputs.sentence.key}>Sentence (auto-trimming)</label>
           <div>
             <textarea
-              id={this.formHandler.inputs.sentence.key}
-              value={this.formHandler.inputs.sentence.value}
-              onChange={this.formHandler.inputs.sentence.takeChangeEvent}
+              id={inputs.sentence.key}
+              value={inputs.sentence.value}
+              onChange={inputs.sentence.handleChange}
             />
           </div>
           <div>
-            (Count: {this.formHandler.outputs.sentence.length} chars)
+            (Count: {outputs.sentence.length} chars)
           </div>
         </div>
 

@@ -55,14 +55,14 @@ class Form extends React.Component<Props> {
 
   public render(): JSX.Element {
     return (
-      <form onSubmit={this.formHandler.takeSubmitEvent}>
+      <form onSubmit={this.formHandler.handleSubmit}>
         <div>
           <label htmlFor={this.formHandler.inputs.email.key}>Email</label>
           <input
             type="text"
             id={this.formHandler.inputs.email.key}
             value={this.formHandler.inputs.email.value}
-            onChange={this.formHandler.inputs.email.takeChangeEvent}
+            onChange={this.formHandler.inputs.email.handleChange}
           />
         </div>
 
@@ -72,7 +72,7 @@ class Form extends React.Component<Props> {
             type="password"
             id={this.formHandler.inputs.password.key}
             value={this.formHandler.inputs.password.value}
-            onChange={this.formHandler.inputs.password.takeChangeEvent}
+            onChange={this.formHandler.inputs.password.handleChange}
           />
         </div>
 

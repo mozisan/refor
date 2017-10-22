@@ -3,12 +3,12 @@ import * as React from 'react';
 import { FileInputHandler } from './file';
 
 describe('FileInputHandler', () => {
-  describe('#takeChangeEvent()', () => {
+  describe('#handleChange()', () => {
     it('should update its value', () => {
       const handler = new FileInputHandler('key');
       expect(handler.value).toBeUndefined();
 
-      const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
+      const element = shallow(<input type="file" onChange={handler.handleChange} />);
       element.simulate('change', {
         currentTarget: {
           files: [new File([], '')],
@@ -26,7 +26,7 @@ describe('FileInputHandler', () => {
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();
 
-      const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
+      const element = shallow(<input type="file" onChange={handler.handleChange} />);
       element.simulate('change', {
         currentTarget: {
           files: [new File([], '')],
@@ -41,7 +41,7 @@ describe('FileInputHandler', () => {
         const hook = jest.fn();
         const handler = new FileInputHandler('key');
         const givenFile = new File([], '');
-        const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
+        const element = shallow(<input type="file" onChange={handler.handleChange} />);
         element.simulate('change', {
           currentTarget: {
             files: [givenFile],
@@ -71,7 +71,7 @@ describe('FileInputHandler', () => {
         const emptyFileValues = [undefined, []];
 
         emptyFileValues.forEach(emptyFileValue => {
-          const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
+          const element = shallow(<input type="file" onChange={handler.handleChange} />);
           element.simulate('change', {
             currentTarget: {
               files: emptyFileValue,
@@ -87,7 +87,7 @@ describe('FileInputHandler', () => {
   describe('#clear()', () => {
     it('should set undefined to its value', () => {
       const handler = new FileInputHandler('key');
-      const element = shallow(<input type="file" onChange={handler.takeChangeEvent} />);
+      const element = shallow(<input type="file" onChange={handler.handleChange} />);
       element.simulate('change', {
         currentTarget: {
           files: [new File([], '')],

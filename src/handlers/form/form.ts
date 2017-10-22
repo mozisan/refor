@@ -41,7 +41,7 @@ export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> 
     return this.formattedValues;
   }
 
-  public takeSubmitEvent = (e: React.FormEvent<HTMLFormElement>) => {
+  public handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.submit();
   }

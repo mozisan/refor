@@ -16,7 +16,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
     return this.selectedFile;
   }
 
-  public takeChangeEvent = (e: React.FormEvent<HTMLInputElement>) => {
+  public handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
     if (files == null || files.length === 0) {
       return;

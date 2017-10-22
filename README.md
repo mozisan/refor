@@ -54,35 +54,37 @@ class Form extends React.Component<Props> {
   });
 
   public render(): JSX.Element {
+    const { inputs, handleSubmit } = this.formHandler;
+
     return (
-      <form onSubmit={this.formHandler.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor={this.formHandler.inputs.email.key}>Email</label>
+          <label htmlFor={inputs.email.key}>Email</label>
           <input
             type="text"
-            id={this.formHandler.inputs.email.key}
-            value={this.formHandler.inputs.email.value}
-            onChange={this.formHandler.inputs.email.handleChange}
+            id={inputs.email.key}
+            value={inputs.email.value}
+            onChange={inputs.email.handleChange}
           />
         </div>
 
         <div>
-          <label htmlFor={this.formHandler.inputs.password.key}>Password</label>
+          <label htmlFor={inputs.password.key}>Password</label>
           <input
             type="password"
-            id={this.formHandler.inputs.password.key}
-            value={this.formHandler.inputs.password.value}
-            onChange={this.formHandler.inputs.password.handleChange}
+            id={inputs.password.key}
+            value={inputs.password.value}
+            onChange={inputs.password.handleChange}
           />
         </div>
 
         <div>
-          <label htmlFor={this.formHandler.inputs.rememberMe.key}>Remember?</label>
+          <label htmlFor={inputs.rememberMe.key}>Remember?</label>
           <input
             type="checkbox"
-            id={this.formHandler.inputs.rememberMe.key}
-            checked={this.formHandler.inputs.rememberMe.value}
-            onChange={this.formHandler.inputs.rememberMe.toggle}
+            id={inputs.rememberMe.key}
+            checked={inputs.rememberMe.value}
+            onChange={inputs.rememberMe.toggle}
           />
         </div>
 

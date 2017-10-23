@@ -8,6 +8,11 @@
   "module": "./dist/es/index.js",
   "jsnext:main": "./dist/es/index.js",
   "typings": "./dist/es/index.d.ts",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "dependencies": {},
   "peerDependencies": {
     "react": ">=15.0.0"

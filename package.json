@@ -20,6 +20,7 @@
     "coveralls": "3.0.0",
     "enzyme": "3.1.0",
     "enzyme-adapter-react-16": "1.0.2",
+    "html-webpack-plugin": "2.30.1",
     "if-env": "1.0.0",
     "jest": "21.2.1",
     "lodash": "4.17.4",
@@ -27,12 +28,16 @@
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-test-renderer": "16.0.0",
+    "refor": "0.0.6",
     "ts-jest": "21.1.3",
+    "ts-loader": "3.0.5",
     "tslint": "5.7.0",
     "tslint-eslint-rules": "4.1.1",
     "tslint-microsoft-contrib": "5.0.1",
     "tslint-react": "3.2.0",
-    "typescript": "2.5.3"
+    "typescript": "2.5.3",
+    "webpack": "3.8.1",
+    "webpack-dev-server": "2.9.3"
   },
   "scripts": {
     "clean": "rimraf ./dist",

@@ -6,7 +6,7 @@ import { InputHandlerMap, createInputHandlerMap } from '../input';
 
 export interface ConstructorOptions<TInputs extends Record<string, InputSchema>, TOutputs> {
   schema: FormSchema<TInputs, TOutputs>;
-  onUpdate?(): void;
+  onUpdate?(nextOutputs: TOutputs, prevOutputs: TOutputs): void;
   shouldSubmit?(outputs: TOutputs): boolean;
   onSubmit?(outputs: TOutputs): void;
 }

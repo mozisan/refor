@@ -11,6 +11,7 @@ describe('FormHandler', () => {
       schema: new FormSchema({
         inputs: {
           text: new TextInputSchema(),
+          file: new FileInputSchema(),
         },
       }),
       onUpdate: updateHook,
@@ -20,14 +21,33 @@ describe('FormHandler', () => {
 
     expect(updateHook.mock.calls.length).toEqual(0);
 
-    const element = shallow(<input type="text" onChange={handler.inputs.text.handleChange} />);
-    element.simulate('change', {
+    const textInput = shallow(<input type="text" onChange={handler.inputs.text.handleChange} />);
+    textInput.simulate('change', {
       currentTarget: {
         value: 'foo',
       },
     });
 
-    expect(updateHook).toBeCalled();
+    expect(updateHook).toBeCalledWith(
+      { text: 'foo', file: undefined },
+      { text: '', file: undefined },
+    );
+
+    updateHook.mockClear();
+
+    const dummyFile = new File([], 'dummy.txt');
+
+    const fileInput = shallow(<input type="file" onChange={handler.inputs.file.handleChange} />);
+    fileInput.simulate('change', {
+      currentTarget: {
+        files: [dummyFile],
+      },
+    });
+
+    expect(updateHook).toBeCalledWith(
+      { text: 'foo', file: dummyFile },
+      { text: 'foo', file: undefined },
+    );
   });
 
   describe('#handleSubmit()', () => {

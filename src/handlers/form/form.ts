@@ -17,7 +17,7 @@ export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> 
   private formattedValues: TOutputs;
   private isInTransaction = false;
   private hasChangedInTransaction = false;
-  private onUpdate?: (outputs: TOutputs) => void;
+  private onUpdate?: (nextOutputs: TOutputs, prevOutputs: TOutputs) => void;
   private shouldSubmit?: (outputs: TOutputs) => boolean;
   private onSubmit?: (outputs: TOutputs) => void;
 
@@ -82,10 +82,13 @@ export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> 
   }
 
   private applyInputUpdate(): void {
-    this.formattedValues = this.formatInputs(this.buildInputValueMap(this.inputs));
+    const prevFormattedValues = this.formattedValues;
+    const nextFormattedValues = this.formatInputs(this.buildInputValueMap(this.inputs));
+
+    this.formattedValues = nextFormattedValues;
 
     if (this.onUpdate != null) {
-      this.onUpdate(this.formattedValues);
+      this.onUpdate(nextFormattedValues, prevFormattedValues);
     }
   }
 

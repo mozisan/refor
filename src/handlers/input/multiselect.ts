@@ -54,6 +54,10 @@ export class MultiselectInputHandler implements InputControllerContract<'multise
     return this.updateTo(this.getselectedValuesExcluding(removableItems));
   }
 
+  public has(item: string): boolean {
+    return this.value.indexOf(item) !== -1;
+  }
+
   public onUpdate(hook: () => void): this {
     this.updateHook = hook;
 

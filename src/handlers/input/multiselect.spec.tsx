@@ -111,6 +111,17 @@ describe('MultiselectInputHandler', () => {
     });
   });
 
+  describe('#has()', () => {
+    it('should true only if item is selected', () => {
+      const schema = new MultiselectInputSchema({ initial: ['foo', 'bar'] });
+      const handler = new MultiselectInputHandler('key', schema);
+
+      expect(handler.has('foo')).toEqual(true);
+      expect(handler.has('bar')).toEqual(true);
+      expect(handler.has('baz')).toEqual(false);
+    });
+  });
+
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();

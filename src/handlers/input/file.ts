@@ -3,13 +3,15 @@ import { InputControllerContract } from './abstract';
 
 export class FileInputHandler implements InputControllerContract<'file', File | undefined> {
   public readonly type: 'file';
-  public readonly key: string;
+  public key: string;
+  private originalKey: string;
   private selectedFile?: File;
   private updateHook?: () => void;
 
   constructor(key: string) {
     this.type = 'file';
     this.key = appendRandomHash(key);
+    this.originalKey = key;
   }
 
   public get value(): File | undefined {
@@ -31,6 +33,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
     }
 
     this.selectedFile = file;
+    this.key = appendRandomHash(this.originalKey);
 
     if (this.updateHook != null) {
       this.updateHook();

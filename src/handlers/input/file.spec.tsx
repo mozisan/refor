@@ -84,19 +84,33 @@ describe('FileInputHandler', () => {
     });
   });
 
+  describe('#updateTo()', () => {
+    it('should updates its key', () => {
+      const handler = new FileInputHandler('key');
+      const prevKey = handler.key;
+      handler.updateTo(new File([], ''));
+      expect(handler.key).not.toEqual(prevKey);
+    });
+  });
+
   describe('#clear()', () => {
     it('should set undefined to its value', () => {
       const handler = new FileInputHandler('key');
-      const element = shallow(<input type="file" onChange={handler.handleChange} />);
-      element.simulate('change', {
-        currentTarget: {
-          files: [new File([], '')],
-        },
-      });
+      handler.updateTo(new File([], ''));
       expect(handler.value).toBeDefined();
 
       handler.clear();
       expect(handler.value).toBeUndefined();
+    });
+
+    it('should updates its key', () => {
+      const handler = new FileInputHandler('key');
+      handler.updateTo(new File([], ''));
+      expect(handler.value).toBeDefined();
+
+      const prevKey = handler.key;
+      handler.clear();
+      expect(handler.key).not.toEqual(prevKey);
     });
   });
 });

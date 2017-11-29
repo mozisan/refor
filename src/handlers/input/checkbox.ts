@@ -5,16 +5,22 @@ import { InputControllerContract } from './abstract';
 export class CheckboxInputHandler implements InputControllerContract<'checkbox', boolean> {
   public readonly type: 'checkbox';
   public readonly key: string;
+  private initialValue: boolean;
   private isChecked: boolean;
   private updateHook?: () => void;
 
   constructor(key: string, { initialValue }: CheckboxInputSchema) {
     this.key = appendRandomHash(key);
+    this.initialValue = initialValue;
     this.isChecked = initialValue;
   }
 
   public get value(): boolean {
     return this.isChecked;
+  }
+
+  public get isDirty(): boolean {
+    return this.isChecked !== this.initialValue;
   }
 
   public toggle = () => {

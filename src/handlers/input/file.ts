@@ -1,3 +1,5 @@
+import { FormEvent } from 'react';
+import { FileInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
 import { InputControllerContract } from './abstract';
 
@@ -5,20 +7,27 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   public readonly type: 'file';
   public key: string;
   private originalKey: string;
+  private initialValue?: File;
   private selectedFile?: File;
   private updateHook?: () => void;
 
-  constructor(key: string) {
+  constructor(key: string, { initialValue }: FileInputSchema) {
     this.type = 'file';
     this.key = appendRandomHash(key);
     this.originalKey = key;
+    this.initialValue = initialValue;
+    this.selectedFile = initialValue;
   }
 
   public get value(): File | undefined {
     return this.selectedFile;
   }
 
-  public handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+  public get isDirty(): boolean {
+    return this.selectedFile !== this.initialValue;
+  }
+
+  public handleChange = (e: FormEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
     if (files == null || files.length === 0) {
       return;

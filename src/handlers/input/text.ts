@@ -8,17 +8,23 @@ type TextInputElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaEleme
 export class TextInputHandler implements InputControllerContract<'text', string> {
   public readonly type: 'text';
   public readonly key: string;
+  private initialValue: string;
   private inputText: string;
   private updateHook?: () => void;
 
   constructor(key: string, { initialValue }: TextInputSchema) {
     this.type = 'text';
     this.key = appendRandomHash(key);
+    this.initialValue = initialValue;
     this.inputText = initialValue;
   }
 
   public get value(): string {
     return this.inputText;
+  }
+
+  public get isDirty(): boolean {
+    return this.inputText !== this.initialValue;
   }
 
   public handleChange = (e: FormEvent<TextInputElement>) => {

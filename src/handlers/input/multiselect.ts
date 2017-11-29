@@ -6,17 +6,27 @@ import { InputControllerContract } from './abstract';
 export class MultiselectInputHandler implements InputControllerContract<'multiselect', string[]> {
   public readonly type: 'multiselect';
   public readonly key: string;
+  private initialValue: string[];
   private selectedValues: string[];
   private updateHook?: () => void;
 
   constructor(key: string, schema: MultiselectInputSchema) {
     this.type = 'multiselect';
     this.key = appendRandomHash(key);
+    this.initialValue = schema.initialValue;
     this.selectedValues = schema.initialValue;
   }
 
   public get value(): string[] {
     return this.selectedValues;
+  }
+
+  public get isDirty(): boolean {
+    if (this.selectedValues.length !== this.initialValue.length) {
+      return true;
+    }
+
+    return this.selectedValues.some((value, i) => this.initialValue[i] !== value);
   }
 
   public handleChange = (e: FormEvent<HTMLSelectElement>) => {

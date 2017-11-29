@@ -1,11 +1,27 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
+import { FileInputSchema } from '../../schema';
 import { FileInputHandler } from './file';
 
 describe('FileInputHandler', () => {
+  describe('#isDirty', () => {
+    it('should be correct value', () => {
+      const schema = new FileInputSchema({ initial: new File([], '') });
+      const handler = new FileInputHandler('key', schema);
+      expect(handler.isDirty).toEqual(false);
+
+      handler.updateTo(new File([], ''));
+      expect(handler.isDirty).toEqual(true);
+
+      handler.clear();
+      expect(handler.isDirty).toEqual(true);
+    });
+  });
+
   describe('#handleChange()', () => {
     it('should update its value', () => {
-      const handler = new FileInputHandler('key');
+      const schema = new FileInputSchema();
+      const handler = new FileInputHandler('key', schema);
       expect(handler.value).toBeUndefined();
 
       const element = shallow(<input type="file" onChange={handler.handleChange} />);
@@ -22,7 +38,8 @@ describe('FileInputHandler', () => {
   describe('#onUpdate()', () => {
     it('should register a hook which will be called after update', () => {
       const hook = jest.fn();
-      const handler = new FileInputHandler('key');
+      const schema = new FileInputSchema();
+      const handler = new FileInputHandler('key', schema);
       handler.onUpdate(hook);
       expect(hook).not.toBeCalled();
 
@@ -39,7 +56,8 @@ describe('FileInputHandler', () => {
     describe('when input value does not change at form event', () => {
       it('should not call the hook', () => {
         const hook = jest.fn();
-        const handler = new FileInputHandler('key');
+        const schema = new FileInputSchema();
+        const handler = new FileInputHandler('key', schema);
         const givenFile = new File([], '');
         const element = shallow(<input type="file" onChange={handler.handleChange} />);
         element.simulate('change', {
@@ -64,7 +82,8 @@ describe('FileInputHandler', () => {
     describe('when no file is given', () => {
       it('should not call the hook', () => {
         const hook = jest.fn();
-        const handler = new FileInputHandler('key');
+        const schema = new FileInputSchema();
+        const handler = new FileInputHandler('key', schema);
         handler.onUpdate(hook);
         expect(hook).not.toBeCalled();
 
@@ -86,7 +105,8 @@ describe('FileInputHandler', () => {
 
   describe('#updateTo()', () => {
     it('should updates its key', () => {
-      const handler = new FileInputHandler('key');
+      const schema = new FileInputSchema();
+      const handler = new FileInputHandler('key', schema);
       const prevKey = handler.key;
       handler.updateTo(new File([], ''));
       expect(handler.key).not.toEqual(prevKey);
@@ -95,7 +115,8 @@ describe('FileInputHandler', () => {
 
   describe('#clear()', () => {
     it('should set undefined to its value', () => {
-      const handler = new FileInputHandler('key');
+      const schema = new FileInputSchema();
+      const handler = new FileInputHandler('key', schema);
       handler.updateTo(new File([], ''));
       expect(handler.value).toBeDefined();
 
@@ -104,7 +125,8 @@ describe('FileInputHandler', () => {
     });
 
     it('should updates its key', () => {
-      const handler = new FileInputHandler('key');
+      const schema = new FileInputSchema();
+      const handler = new FileInputHandler('key', schema);
       handler.updateTo(new File([], ''));
       expect(handler.value).toBeDefined();
 

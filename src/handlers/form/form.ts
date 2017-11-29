@@ -5,31 +5,33 @@ import { keysOf, merge } from '../../wrappers/object';
 import { InputHandlerMap, createInputHandlerMap } from '../input';
 
 export interface ConstructorOptions<TInputs extends Record<string, InputSchema>, TOutputs> {
-  schema: FormSchema<TInputs, TOutputs>;
+  schema: FormSchema<TInputs>;
+  buildOutputs?(inputs: InputHandlerMap<TInputs>): TOutputs;
   onUpdate?(nextOutputs: TOutputs, prevOutputs: TOutputs): void;
   shouldSubmit?(outputs: TOutputs): boolean;
   onSubmit?(outputs: TOutputs): void;
 }
 
-export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> {
+export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs = InputTypeOf<TInputs>> {
   public readonly inputs: InputHandlerMap<TInputs>;
-  private formatInputs: (inputs: InputTypeOf<TInputs>) => TOutputs;
   private formattedValues: TOutputs;
   private isInTransaction = false;
   private hasChangedInTransaction = false;
+  private buildOutputs?: (inputs: InputHandlerMap<TInputs>) => TOutputs;
   private onUpdate?: (nextOutputs: TOutputs, prevOutputs: TOutputs) => void;
   private shouldSubmit?: (outputs: TOutputs) => boolean;
   private onSubmit?: (outputs: TOutputs) => void;
 
   constructor({
     schema,
+    buildOutputs,
     onUpdate,
     shouldSubmit,
     onSubmit,
   }: ConstructorOptions<TInputs, TOutputs>) {
     this.inputs = createInputHandlerMap(schema.inputs);
-    this.formatInputs = schema.format;
-    this.formattedValues = schema.format(this.buildInputValueMap(this.inputs));
+    this.buildOutputs = buildOutputs;
+    this.formattedValues = this.formatInputs(this.inputs);
     this.onUpdate = onUpdate;
     this.shouldSubmit = shouldSubmit;
     this.onSubmit = onSubmit;
@@ -81,9 +83,17 @@ export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> 
     this.applyInputUpdate();
   }
 
+  private formatInputs(inputs: InputHandlerMap<TInputs>): TOutputs {
+    if (this.buildOutputs != null) {
+      return this.buildOutputs(inputs);
+    }
+
+    return this.buildInputValueMap(this.inputs) as any;
+  }
+
   private applyInputUpdate(): void {
     const prevFormattedValues = this.formattedValues;
-    const nextFormattedValues = this.formatInputs(this.buildInputValueMap(this.inputs));
+    const nextFormattedValues = this.formatInputs(this.inputs);
 
     this.formattedValues = nextFormattedValues;
 
@@ -92,9 +102,8 @@ export class FormHandler<TInputs extends Record<string, InputSchema>, TOutputs> 
     }
   }
 
-  private buildInputValueMap(inputs: InputHandlerMap<TInputs>): InputTypeOf<TInputs> {
-    return keysOf(inputs)
+  private buildInputValueMap = (inputs: InputHandlerMap<TInputs>): InputTypeOf<TInputs>  =>
+    keysOf(inputs)
       .map(key => ({ [key]: inputs[key].value }))
-      .reduce(merge, {}) as any;
-  }
+      .reduce(merge, {}) as any
 }

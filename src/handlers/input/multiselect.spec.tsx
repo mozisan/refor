@@ -4,6 +4,20 @@ import { MultiselectInputSchema } from '../../schema';
 import { MultiselectInputHandler } from './multiselect';
 
 describe('MultiselectInputHandler', () => {
+  describe('#isDirty', () => {
+    it('should be correct value', () => {
+      const schema = new MultiselectInputSchema();
+      const handler = new MultiselectInputHandler('key', schema);
+      expect(handler.isDirty).toEqual(false);
+
+      handler.updateTo(['hoge']);
+      expect(handler.isDirty).toEqual(true);
+
+      handler.updateTo([]);
+      expect(handler.isDirty).toEqual(false);
+    });
+  });
+
   describe('#handleChange()', () => {
     describe('when only one of options is selected', () => {
       it('should update its value', () => {

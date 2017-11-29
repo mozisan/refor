@@ -7,6 +7,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   public readonly type: 'file';
   public key: string;
   private originalKey: string;
+  private initialValue?: File;
   private selectedFile?: File;
   private updateHook?: () => void;
 
@@ -14,11 +15,16 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
     this.type = 'file';
     this.key = appendRandomHash(key);
     this.originalKey = key;
+    this.initialValue = initialValue;
     this.selectedFile = initialValue;
   }
 
   public get value(): File | undefined {
     return this.selectedFile;
+  }
+
+  public get isDirty(): boolean {
+    return this.selectedFile !== this.initialValue;
   }
 
   public handleChange = (e: FormEvent<HTMLInputElement>) => {

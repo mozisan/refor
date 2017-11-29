@@ -4,6 +4,20 @@ import { TextInputSchema } from '../../schema';
 import { TextInputHandler } from './text';
 
 describe('TextInputHandler', () => {
+  describe('#isDirty', () => {
+    it('should be correct value', () => {
+      const schema = new TextInputSchema({ initial: '' });
+      const handler = new TextInputHandler('key', schema);
+      expect(handler.isDirty).toEqual(false);
+
+      handler.updateTo('hoge');
+      expect(handler.isDirty).toEqual(true);
+
+      handler.updateTo('');
+      expect(handler.isDirty).toEqual(false);
+    });
+  });
+
   describe('#handleChange()', () => {
     it('should update its value', () => {
       const schema = new TextInputSchema({ initial: '' });

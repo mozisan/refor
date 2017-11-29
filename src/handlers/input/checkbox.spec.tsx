@@ -4,6 +4,20 @@ import { CheckboxInputSchema } from '../../schema';
 import { CheckboxInputHandler } from './checkbox';
 
 describe('CheckboxInputHandler', () => {
+  describe('#isDirty', () => {
+    it('should be correct value', () => {
+      const schema = new CheckboxInputSchema({ initial: false });
+      const handler = new CheckboxInputHandler('key', schema);
+      expect(handler.isDirty).toEqual(false);
+
+      handler.toggle();
+      expect(handler.isDirty).toEqual(true);
+
+      handler.toggle();
+      expect(handler.isDirty).toEqual(false);
+    });
+  });
+
   describe('#updateTo()', () => {
     it('should update its value', () => {
       const schema = new CheckboxInputSchema({ initial: false });

@@ -4,6 +4,20 @@ import { FileInputSchema } from '../../schema';
 import { FileInputHandler } from './file';
 
 describe('FileInputHandler', () => {
+  describe('#isDirty', () => {
+    it('should be correct value', () => {
+      const schema = new FileInputSchema({ initial: new File([], '') });
+      const handler = new FileInputHandler('key', schema);
+      expect(handler.isDirty).toEqual(false);
+
+      handler.updateTo(new File([], ''));
+      expect(handler.isDirty).toEqual(true);
+
+      handler.clear();
+      expect(handler.isDirty).toEqual(true);
+    });
+  });
+
   describe('#handleChange()', () => {
     it('should update its value', () => {
       const schema = new FileInputSchema();

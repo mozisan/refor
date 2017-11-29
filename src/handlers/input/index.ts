@@ -22,7 +22,7 @@ function createInputHandler<TFormSchema extends Record<string, InputSchema>>(
   case 'checkbox':
     return new CheckboxInputHandler(inputKey, inputSchema);
   case 'file':
-    return new FileInputHandler(inputKey);
+    return new FileInputHandler(inputKey, inputSchema);
   case 'multiselect':
     return new MultiselectInputHandler(inputKey, inputSchema);
   case 'text':

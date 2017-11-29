@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import { FileInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
 import { InputControllerContract } from './abstract';
 
@@ -9,10 +10,11 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   private selectedFile?: File;
   private updateHook?: () => void;
 
-  constructor(key: string) {
+  constructor(key: string, { initialValue }: FileInputSchema) {
     this.type = 'file';
     this.key = appendRandomHash(key);
     this.originalKey = key;
+    this.selectedFile = initialValue;
   }
 
   public get value(): File | undefined {

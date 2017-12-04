@@ -3,20 +3,39 @@ import { FileInputSchema } from '../../schema';
 import { appendRandomHash } from '../../utils/string';
 import { InputControllerContract } from './abstract';
 
+export type ImageResolver = (url: string) => Promise<File>;
+
+export interface Dependencies {
+  readonly imageResolver?: ImageResolver;
+}
+
+const defaultImageResolver: ImageResolver = (url: string) =>
+  fetch(url)
+    .then(data => data.blob())
+    .then(blob => new File([blob], `uploaded.${url.split('.').pop()}`));
+
 export class FileInputHandler implements InputControllerContract<'file', File | undefined> {
   public readonly type: 'file';
   public key: string;
   private originalKey: string;
-  private initialValue?: File;
+  private initialSet: boolean;
+  private hasChanged: boolean;
   private selectedFile?: File;
   private updateHook?: () => void;
+  private resolveImage: ImageResolver;
 
-  constructor(key: string, { initialValue }: FileInputSchema) {
+  constructor(key: string, { initialValue }: FileInputSchema, { imageResolver = defaultImageResolver }: Dependencies = {}) {
     this.type = 'file';
     this.key = appendRandomHash(key);
     this.originalKey = key;
-    this.initialValue = initialValue;
-    this.selectedFile = initialValue;
+    this.initialSet = initialValue != null;
+    this.hasChanged = false;
+    this.selectedFile = initialValue instanceof File ? initialValue : undefined;
+    this.resolveImage = imageResolver;
+
+    if (typeof initialValue === 'string') {
+      this.retrieveSelectedFileFromURL(initialValue);
+    }
   }
 
   public get value(): File | undefined {
@@ -24,7 +43,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   }
 
   public get isDirty(): boolean {
-    return this.selectedFile !== this.initialValue;
+    return this.hasChanged;
   }
 
   public handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -44,6 +63,8 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
     this.selectedFile = file;
     this.key = appendRandomHash(this.originalKey);
 
+    this.hasChanged = this.initialSet ? true : this.selectedFile != null;
+
     if (this.updateHook != null) {
       this.updateHook();
     }
@@ -58,4 +79,8 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   }
 
   public clear = () => this.updateTo(undefined);
+
+  private retrieveSelectedFileFromURL(url: string): void {
+    this.resolveImage(url).then(file => this.updateTo(file));
+  }
 }

@@ -5,16 +5,46 @@ import { FileInputHandler } from './file';
 
 describe('FileInputHandler', () => {
   describe('#isDirty', () => {
-    it('should be correct value', () => {
-      const schema = new FileInputSchema({ initial: new File([], '') });
-      const handler = new FileInputHandler('key', schema);
-      expect(handler.isDirty).toEqual(false);
+    describe('with initial value of file', () => {
+      it('should be correct value', () => {
+        const schema = new FileInputSchema({ initial: new File([], '') });
+        const handler = new FileInputHandler('key', schema);
+        expect(handler.isDirty).toEqual(false);
 
-      handler.updateTo(new File([], ''));
-      expect(handler.isDirty).toEqual(true);
+        handler.updateTo(new File([], ''));
+        expect(handler.isDirty).toEqual(true);
 
-      handler.clear();
-      expect(handler.isDirty).toEqual(true);
+        handler.clear();
+        expect(handler.isDirty).toEqual(true);
+      });
+    });
+
+    describe('with initial value of url string', () => {
+      it('should be correct value', () => {
+        const schema = new FileInputSchema({ initial: '' });
+        const handler = new FileInputHandler('key', schema, { imageResolver: async () => new File([], '') });
+        expect(handler.isDirty).toEqual(false);
+
+        handler.updateTo(new File([], ''));
+        expect(handler.isDirty).toEqual(true);
+
+        handler.clear();
+        expect(handler.isDirty).toEqual(true);
+      });
+    });
+
+    describe('without initial value', () => {
+      it('should be correct value', () => {
+        const schema = new FileInputSchema();
+        const handler = new FileInputHandler('key', schema);
+        expect(handler.isDirty).toEqual(false);
+
+        handler.updateTo(new File([], ''));
+        expect(handler.isDirty).toEqual(true);
+
+        handler.clear();
+        expect(handler.isDirty).toEqual(false);
+      });
     });
   });
 

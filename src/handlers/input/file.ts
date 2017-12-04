@@ -17,7 +17,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   public readonly type: 'file';
   public key: string;
   private originalKey: string;
-  private initialSet: boolean;
+  private hasInitialValue: boolean;
   private hasChanged: boolean;
   private selectedFile?: File;
   private updateHook?: () => void;
@@ -27,7 +27,7 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
     this.type = 'file';
     this.key = appendRandomHash(key);
     this.originalKey = key;
-    this.initialSet = initialValue != null;
+    this.hasInitialValue = initialValue != null;
     this.hasChanged = false;
     this.selectedFile = initialValue instanceof File ? initialValue : undefined;
     this.resolveImage = imageResolver;
@@ -59,10 +59,9 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
       return this;
     }
 
+    this.hasChanged = this.hasInitialValue ? true : file != null;
     this.selectedFile = file;
     this.key = appendRandomHash(this.originalKey);
-
-    this.hasChanged = this.initialSet ? true : this.selectedFile != null;
 
     if (this.updateHook != null) {
       this.updateHook();
@@ -80,6 +79,17 @@ export class FileInputHandler implements InputControllerContract<'file', File | 
   public clear = () => this.updateTo(undefined);
 
   private retrieveSelectedFileFromURL(url: string): void {
-    this.resolveImage(url).then(file => this.updateTo(file));
+    this.resolveImage(url).then(file => {
+      if (this.hasChanged) {
+        return;
+      }
+
+      this.selectedFile = file;
+      this.key = appendRandomHash(this.originalKey);
+
+      if (this.updateHook != null) {
+        this.updateHook();
+      }
+    });
   }
 }

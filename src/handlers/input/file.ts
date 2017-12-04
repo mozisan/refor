@@ -1,6 +1,6 @@
-import { getType, getExtension } from 'mime';
 import { FormEvent } from 'react';
 import { FileInputSchema } from '../../schema';
+import { convertBlobToFile } from '../../utils/file';
 import { appendRandomHash } from '../../utils/string';
 import { InputControllerContract } from './abstract';
 
@@ -11,9 +11,7 @@ export interface Dependencies {
 }
 
 const defaultImageResolver: ImageResolver = (url: string) =>
-  fetch(url)
-    .then(data => data.blob())
-    .then(blob => new File([blob], `uploaded.${getExtension(url)}`, { type: getType(url) || undefined }));
+  fetch(url).then(data => data.blob()).then(convertBlobToFile(url));
 
 export class FileInputHandler implements InputControllerContract<'file', File | undefined> {
   public readonly type: 'file';

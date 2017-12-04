@@ -32,6 +32,7 @@
     "if-env": "1.0.0",
     "jest": "21.2.1",
     "lodash": "4.17.4",
+    "mime": "^2.0.3",
     "npm-run-all": "4.1.1",
     "react": "16.0.0",
     "react-dom": "16.0.0",
@@ -82,7 +83,8 @@
       "js",
       "jsx",
       "ts",
-      "tsx"
+      "tsx",
+      "json"
     ],
     "transform": {
       "\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
